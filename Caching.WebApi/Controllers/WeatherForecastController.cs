@@ -14,14 +14,7 @@ namespace Caching.WebApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly List<string> Summaries = new List<string> {
-        
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-
         private readonly IDistributedCache _distributedCache;
-
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -38,7 +31,7 @@ namespace Caching.WebApi.Controllers
 
             var cacheKey = "weatherList";
             string serializedCustomerList;
-            var weatherList = new List<string>();
+            List<string>  weatherList = new List<string>();
             var redisCustomerList = await _distributedCache.GetAsync(cacheKey);
             if (redisCustomerList != null)
             {
@@ -63,7 +56,9 @@ namespace Caching.WebApi.Controllers
         private List<string> GetFromDb()
         {
             // Sample code getting from db
-            return Summaries.ToList();
+            return new List<string> {
+                   "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            }.ToList();
         }
     }
 }
